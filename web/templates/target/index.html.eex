@@ -1,0 +1,25 @@
+<h2>Listing targets</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for target <- @targets do %>
+    <tr>
+      <td>
+        <%= target.name %>
+      </td>
+      <td class="text-right">
+        <%= link "Show", to: target_path(@conn, :show, target), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: target_path(@conn, :edit, target), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: target_path(@conn, :delete, target), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New target", to: target_path(@conn, :new) %>
