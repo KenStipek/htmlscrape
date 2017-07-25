@@ -1,7 +1,8 @@
 defmodule Htmlscrape.Target do
   use Htmlscrape.Web, :model
-  
+
   alias Htmlscrape.Repo
+  alias Htmlscrape.Scrape
 
   schema "targets" do
     has_many :scrapes,  Htmlscrape.Scrape
@@ -10,20 +11,25 @@ defmodule Htmlscrape.Target do
     field    :selector, :string
     timestamps()
   end
-    
+
   def scrape_data() do
-    HTTPotion.start
     for target <- Repo.all(Htmlscrape.Target) do
       response = HTTPotion.get(
         target.url, [
-          headers: ["User-Agent": "Htmlscrape"], 
+          headers: ["User-Agent": "Htmlscrape"],
           follow_redirects: true
         ]
       )
-      Floki.find(response.body, target.selector)
+
+      result = Floki.find(response.body, target.selector)
       |> Floki.text
-      |> String.split("%")
-      |> hd
+
+      IO.puts(result)
+
+      Repo.insert(Scrape.changeset(%Scrape{}, %{
+        target_id: target.id,
+        result: result
+      }))
     end
   end
 

@@ -10,15 +10,8 @@
   <tbody>
 <%= for scrape <- @scrapes do %>
     <tr>
-
-      <td class="text-right">
-        <%= link "Show", to: scrape_path(@conn, :show, scrape), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: scrape_path(@conn, :edit, scrape), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: scrape_path(@conn, :delete, scrape), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
+      <%= scrape.result %>
     </tr>
 <% end %>
   </tbody>
 </table>
-
-<%= link "New scrape", to: scrape_path(@conn, :new) %>

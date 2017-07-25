@@ -1,10 +1,11 @@
 defmodule Htmlscrape.Scrape do
   use Htmlscrape.Web, :model
 
+  alias Htmlscrape.Target
+
   schema "scrapes" do
-    # belongs_to :target, Htmlscrape.Target
-    has_many :scrapes, Htmlscrape.Target
-    field    :result,  :string
+    belongs_to :target, Target
+    field      :result, :string
     timestamps()
   end
 
@@ -13,7 +14,7 @@ defmodule Htmlscrape.Scrape do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
+    |> cast(params, [:result, :target_id])
     |> validate_required([])
   end
 end
